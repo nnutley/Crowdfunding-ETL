@@ -12,25 +12,38 @@ ORDER BY backers_count DESC;
 
 -- 2. (2.5 pts)
 -- Using the "backers" table confirm the results in the first query.
-SELECT l.backers_count,
-		b.cf_id
---INTO
-FROM live_campaigns as l
-INNER JOIN backers as b
-ON l.cf_id = b.cf_id
-GROUP BY b.cf_id
-ORDER BY l.backers_count DESC;
 
+SELECT cf_id, COUNT(backer_id) AS "Total Backers"
+--INTO total_backers
+FROM backers
+GROUP BY cf_id
+ORDER BY "Total Backers" DESC;
 
 -- 3. (5 pts)
 -- Create a table that has the first and last name, and email address of each contact.
 -- and the amount left to reach the goal for all "live" projects in descending order. 
 
+SELECT goal - pledged AS remaining_goal_amount,
+		contact_id,
+		outcome
+INTO goal_amount
+FROM campaign
+WHERE outcome = 'live';
 
+SELECT co.first_name,
+		co.last_name,
+		co.email,
+		g.remaining_goal_amount
+--INTO email_contacts_remaining_goal_amount
+FROM goal_amount as g
+INNER JOIN contacts as co
+ON g.contact_id = co.contact_id
+ORDER BY remaining_goal_amount DESC;
 
 
 -- Check the table
 
+SELECT * FROM email_contacts_remaining_goal_amount;
 
 -- 4. (5 pts)
 -- Create a table, "email_backers_remaining_goal_amount" that contains the email address of each backer in descending order, 
