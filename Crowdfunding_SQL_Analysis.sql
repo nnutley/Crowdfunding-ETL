@@ -2,7 +2,13 @@
 -- 1. (2.5 pts)
 -- Retrieve all the number of backer_counts in descending order for each `cf_id` for the "live" campaigns. 
 
-
+SELECT cf_id, 
+		backers_count
+--INTO live_campaigns
+FROM campaign
+WHERE outcome = 'live'
+GROUP BY cf_id
+ORDER BY backers_count DESC;
 
 -- 2. (2.5 pts)
 -- Using the "backers" table confirm the results in the first query.
