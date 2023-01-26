@@ -26,7 +26,7 @@ ORDER BY "Total Backers" DESC;
 SELECT goal - pledged AS remaining_goal_amount,
 		contact_id,
 		outcome
-INTO goal_amount
+--INTO goal_amount
 FROM campaign
 WHERE outcome = 'live';
 
@@ -50,8 +50,29 @@ SELECT * FROM email_contacts_remaining_goal_amount;
 -- and has the first and last name of each backer, the cf_id, company name, description, 
 -- end date of the campaign, and the remaining amount of the campaign goal as "Left of Goal". 
 
+SELECT cf_id,
+		company_name,
+		description,
+		end_date,
+		goal - pledged AS left_of_goal
+INTO left_of_goal
+FROM campaign
+WHERE outcome = 'live';
 
+SELECT b.email,
+		b.first_name,
+		b.last_name,
+		l.cf_id,
+		l.company_name,
+		l.description,
+		l.end_date,
+		l.left_of_goal
+INTO email_backers_remaining_goal_amount
+FROM backers as b
+INNER JOIN left_of_goal as l
+ON b.cf_id = l.cf_id
+ORDER BY last_name;
 
 -- Check the table
-
+SELECT * FROM email_backers_remaining_goal_amount;
 
