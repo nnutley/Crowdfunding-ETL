@@ -12,7 +12,14 @@ ORDER BY backers_count DESC;
 
 -- 2. (2.5 pts)
 -- Using the "backers" table confirm the results in the first query.
-
+SELECT l.backers_count,
+		b.cf_id
+--INTO
+FROM live_campaigns as l
+INNER JOIN backers as b
+ON l.cf_id = b.cf_id
+GROUP BY b.cf_id
+ORDER BY l.backers_count DESC;
 
 
 -- 3. (5 pts)
